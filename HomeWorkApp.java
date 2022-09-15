@@ -1,176 +1,218 @@
-package homework3;
+package TikTakToe;
 
-import org.w3c.dom.ls.LSOutput;
+import java.util.Random;
+import java.util.Scanner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+public class TikTakToe {
 
-public class homework3 {
-    static final int SPECIAL_ARRAY_SIZE = 100;
+    private static int fieldSize;
+    private static int SIZE = fieldSize;
+
+    private static final char DOT_EMPTY = '•';
+    private static final char DOT_HUMAN = 'X';
+    private static final char DOT_AI = 'O';
+
+    public static final String HEADER_FIRST_SYMBOL = "❤";
+    public static final String SPACE_MAP_SYMBOL = " ";
+
+    private static char[][] MAP;
+
+    private static final Scanner in = new Scanner(System.in);
+    private static final Random random = new Random();
+
+    private static int turnsCount = 0;
 
     public static void main(String[] args) {
-
-        switchingElementValuesArray();
-        fillFromOneToHundred();
-        lowerThanSixIsMultiplyByTwo();
-        System.out.println("*********");
-        diagonalFilledByOnePrint();
-        System.out.println("*********");
-        createSpecificIntArray(5, 6);
-        findAndPrintMinAndMaxElementInArray();
-        System.out.println("*********");
-        System.out.println(checkBalance());
-//        swapValue();
-
-
-
+        playGroundCreate();
+        mapInit(fieldSize);
+        printMap();
+        playGame();
     }
 
+    private static void playGame() {
+        while (true) {
 
-    private static void switchingElementValuesArray() {
-        int[] arr = {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0};
+            humanTurn();
+            printMap();
+//            check endGame
+            if (checkEnd(DOT_HUMAN)) {
+                break;
+            }
 
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 0) {
-                arr[i] = 1;
-            } else if (arr[i] == 1) {
-                arr[i] = 0;
+
+            aiTurn();
+            printMap();
+//            check endGame
+            if (checkEnd(DOT_AI)) {
+                break;
             }
         }
-        System.out.println(Arrays.toString(arr));
+    }
+
+    private static void playGroundCreate() {
+
+        System.out.println("Please set the field size: ");
+        fieldSize = in.nextInt();
 
     }
 
-    private static void fillFromOneToHundred() {
-        int[] arr = new int[SPECIAL_ARRAY_SIZE];
-        for (int i = 0; i < SPECIAL_ARRAY_SIZE; i++) {
-            arr[i] = i + 1;
-        }
-        System.out.println(Arrays.toString(arr));
-    }
-
-    private static void lowerThanSixIsMultiplyByTwo() {
-        int[] arr = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] < 6) {
-                arr[i] = arr[i] * 2;
+    private static boolean checkEnd(char symbol) {
+        if (checkWin(symbol)) {
+            if (symbol == DOT_HUMAN) {
+                System.out.println("HUMAN WIN");
+            } else {
+                System.out.println("SKYNET WIN");
             }
-        }
-        System.out.println(Arrays.toString(arr));
-    }
-
-
-    private static void diagonalFilledByOnePrint() {
-        int[][] arr = new int[6][6];
-
-        /*for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-
-                if(j == i){
-                    arr[i][j] = 1;
-                } else {
-                    arr[i][j] = 0;
-                }
-
-            }
-            System.out.println(Arrays.toString(arr[i]));
-        }*/
-
-/*        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-
-                if(i % 2 == j % 2){
-                    arr[i][j] = 0;
-                } else {
-                    arr[i][j] = 1;
-                }
-            }
-            System.out.println(Arrays.toString(arr[i]));
-        }*/
-
-    /*    for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if(j == i){
-                    arr[i][i] = 1;
-                    arr[i][arr.length - 1 - i] = 1;
-                } else {
-                    arr[j][j] = 0;
-                }
-            }
-            System.out.println(Arrays.toString(arr[i]));
-        }*/
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if (j == i || arr.length - 1 - i == j) {
-                    arr[i][j] = 1;
-                } else {
-                    arr[j][j] = 0;
-                }
-            }
-            System.out.println(Arrays.toString(arr[i]));
-        }
-
-    }
-
-    private static void createSpecificIntArray(int len, int value) {
-        int[] arr = new int[len];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = value;
-
-        }
-        System.out.println(Arrays.toString(arr));
-    }
-
-    private static void findAndPrintMinAndMaxElementInArray() {
-        int[] arr = new int[10];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * 1000);
-        }
-        int max = arr[0];
-        int min = arr[0];
-
-        System.out.println(Arrays.toString(arr));
-        for (int i = 1; i < arr.length; i++) {
-
-            if (arr[i] > max) max = arr[i];
-
-        }
-        for (int i = 0; i < arr.length; i++) {
-
-            if (arr[i] < min) min = arr[i];
-        }
-        System.out.println(max);
-        System.out.println(min);
-    }
-
-    private static boolean checkBalance() {
-
-        int[] arr = new int[10];
-        int sumLeft = 0;
-        int sumRight = 0;
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) (Math.random() * 10 + 1);
-        }
-        System.out.println(Arrays.toString(arr));
-        // Array is created and ready to go.
-
-        //Creating sum of left side of an array
-        for (int i = 0; i < (arr.length / 2); i++) {
-            sumLeft += arr[i];
-        }
-        //Creating sum of right side of an array
-        for (int i = (arr.length / 2); i < arr.length; i++) {
-            sumRight += arr[i];
-        }
-        // Checking balance of an array
-        if (sumLeft == sumRight) {
             return true;
-        } else {
-            return false;
+        }
+
+        // DRAW
+        if (checkDraw()) {
+            System.out.println("DRAW");
+            return true;
         }
 
 
+        return false;
     }
 
+    private static boolean checkDraw() {
+        /*for (char[] chars : MAP) {
+            for (char symbol : chars) {
+                if (symbol == DOT_EMPTY){
+                    return false;
+                }
+            }
+        }
+        return true;*/
+
+        return turnsCount >= SIZE * SIZE;
+
+    }
+
+    private static boolean checkWin(char symbol) {
+        /*if (MAP[0][0] == symbol && MAP[0][1] == symbol && MAP[0][2] == symbol) {
+            return true;
+        }
+        if (MAP[1][0] == symbol && MAP[1][1] == symbol && MAP[1][2] == symbol) {
+            return true;
+        }
+        if (MAP[2][0] == symbol && MAP[2][1] == symbol && MAP[2][2] == symbol) {
+            return true;
+        }
+
+        if (MAP[0][0] == symbol && MAP[1][0] == symbol && MAP[2][0] == symbol) {
+            return true;
+        }
+        if (MAP[0][1] == symbol && MAP[1][1] == symbol && MAP[2][1] == symbol) {
+            return true;
+        }
+        if (MAP[0][2] == symbol && MAP[1][2] == symbol && MAP[2][2] == symbol) {
+            return true;
+        }
+
+        if (MAP[0][0] == symbol && MAP[1][1] == symbol && MAP[2][2] == symbol) {
+            return true;
+        }
+        if (MAP[0][2] == symbol && MAP[1][1] == symbol && MAP[2][0] == symbol) {
+            return true;
+        }*/
+        for (int i = 0; i < SIZE; i++) {
+            boolean horizontalVertical = true;
+            boolean diagonalLeft = true;
+            boolean diagonalRight = true;
+            for (int j = 0; j < SIZE; j++) {
+                horizontalVertical = horizontalVertical && (MAP[i][j] == symbol) || horizontalVertical && (MAP[j][i] == symbol);
+                diagonalLeft = diagonalLeft && (MAP[SIZE - j - 1][j] == symbol);
+                diagonalRight = diagonalRight && (MAP[j][j] == symbol);
+            }
+            if (horizontalVertical) {
+                return true;
+            } else if (diagonalLeft || diagonalRight) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private static void aiTurn() {
+        System.out.println("\n COMPUTER TURN!");
+        int rowNumber;
+        int columnNumber;
+        do {
+
+            rowNumber = random.nextInt(SIZE);
+
+            columnNumber = random.nextInt(SIZE);
+
+            if (isCellFree(rowNumber, columnNumber)) {
+                break;
+            }
+        } while (!isCellFree(rowNumber, columnNumber));
+
+        MAP[rowNumber][columnNumber] = DOT_AI;
+        turnsCount++;
+    }
+
+    private static void humanTurn() {
+        System.out.println("\n HUMAN TURN!");
+        int rowNumber;
+        int columnNumber;
+        while (true) {
+            System.out.println("PLEASE ENTER ROW COORDINATE");
+            rowNumber = in.nextInt() - 1;
+            System.out.println("PLEASE ENTER COLUMN COORDINATE");
+            columnNumber = in.nextInt() - 1;
+
+            if (isCellFree(rowNumber, columnNumber)) {
+                break;
+            }
+            System.out.printf("ERROR! CELL %s:%s IS ALREADY TAKEN ", rowNumber + 1, columnNumber + 1);
+        }
+
+        MAP[rowNumber][columnNumber] = DOT_HUMAN;
+        turnsCount++;
+    }
+
+    private static boolean isCellFree(int rowNumber, int columnNumber) {
+        return MAP[rowNumber][columnNumber] == DOT_EMPTY;
+    }
+
+    private static void mapInit(int fieldSize) {
+        SIZE = fieldSize;
+        MAP = new char[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                MAP[i][j] = DOT_EMPTY;
+            }
+        }
+    }
+
+    private static void printMap() {
+        printHeaderMap();
+        printBodyMap();
+    }
+
+    private static void printBodyMap() {
+        for (int i = 0; i < SIZE; i++) {
+            printMapNumber(i);
+            for (int j = 0; j < SIZE; j++) {
+                System.out.print(MAP[i][j] + SPACE_MAP_SYMBOL);
+            }
+            System.out.println();
+        }
+    }
+
+    private static void printHeaderMap() {
+        System.out.print(HEADER_FIRST_SYMBOL + SPACE_MAP_SYMBOL);
+        for (int i = 0; i < SIZE; i++) {
+            printMapNumber(i);
+        }
+        System.out.println();
+    }
+
+    private static void printMapNumber(int i) {
+        System.out.print(i + 1 + SPACE_MAP_SYMBOL);
+    }
 }
