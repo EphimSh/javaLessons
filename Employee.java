@@ -1,13 +1,14 @@
 package homework5.company.javaLessons;
 
 public class Employee {
-    public String name;
-    protected String position;
-    public String email;
-    public int telephoneNumber;
-    public int salary;
-    public int age;
+    private String name;
+    private String position;
+    private String email;
+    private int telephoneNumber;
+    private int salary;
+    private int age;
 
+    private int accessTotal;
     public Employee(String name, String position, String email, int telephoneNumber, int salary, int age) {
         this.name = name;
         this.position = position;
@@ -17,7 +18,7 @@ public class Employee {
         this.age = age;
     }
 
-    /*public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -42,20 +43,28 @@ public class Employee {
     }
 
     public int getSalary() {
+        this.accessTotal++;
         return salary;
     }
 
     public void setSalary(int salary) {
-        this.salary = salary;
+        if(salary < 1000000){
+            this.salary = salary;
+        }
+
     }
 
     public int getAge() {
+        this.accessTotal++;
         return age;
     }
 
     public void setAge(int age) {
-        this.age = age;
-    }*/
+        if(age < 100){
+            this.age = age;
+        }
+
+    }
     public void printInformation() {
         System.out.printf("Employee information: %n name: %s %n position: %s %n email: %s %n tel.number %s %n salary: %s %n age: %s",
                 name, position, email, telephoneNumber, salary, age);

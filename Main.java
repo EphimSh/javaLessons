@@ -11,7 +11,7 @@ public class Main {
         Employee[] employees = {employee0,employee1,employee2,employee3,employee4};
 
         for (Employee employee : employees) {
-            if(employee.age > 40)
+            if(employee.getAge() > 40)
             employee.printInformation();
         }
 
