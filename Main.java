@@ -1,19 +1,31 @@
-package homework5.company.javaLessons;
+package lesson7.javaLessons;
 
 public class Main {
     public static void main(String[] args) {
-        Employee employee0 = new Employee("John","anykeydude", "thisdude@mail.com", 88995544, 80000, 30);
-        Employee employee1 = new Employee("Bob","developer", "420@mail.com", 889315544, 120000, 32);
-        Employee employee2 = new Employee("Ruslan","devOps", "dushnila@mail.com", 812325544, 500000, 41);
-        Employee employee3 = new Employee("Albert","lawyer", "albertmolbert@mail.com", 81235544, 150000, 42);
-        Employee employee4 = new Employee("Sam","qa", "e@mail.com", 889912544, 100000, 30);
+        Cat cat1 = new Cat("Barsik", 20, false);
+        Cat cat2 = new Cat("Marsik", 20, false);
+        Cat cat3 = new Cat("Karsik", 20, false);
+        Cat cat4 = new Cat("Jarsik", 20, false);
+        Cat cat5 = new Cat("Rarsik", 22, false);
 
-        Employee[] employees = {employee0,employee1,employee2,employee3,employee4};
 
-        for (Employee employee : employees) {
-            if(employee.age > 40)
-            employee.printInformation();
+        Plate plate = new Plate(100);
+
+        Cat[] cats = {cat1,cat2,cat3,cat4,cat5};
+        for (Cat cat : cats){
+            cat.eat(plate);
+            cat.info();
+            System.out.println("***");
+            if(!cat.getSatiety()){
+                plate.addFood();
+                cat.eat(plate);
+                cat.info();
+                plate.info();
+            }
         }
+
+
+
 
 
     }
